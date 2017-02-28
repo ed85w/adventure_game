@@ -1,4 +1,4 @@
-from data import locations
+from data import locations, map_cols, map_rows
 
 directions = {
     'west': (-1, 0),
@@ -8,6 +8,24 @@ directions = {
 }
 
 position = (0,0)
+
+def map_for_print(player_position):
+    adventure_map = {}
+    for pos, loc in locations.iteritems():
+        if pos == player_position:
+            adventure_map[pos] = "you are here"
+        else:
+            adventure_map[pos] = loc
+    return adventure_map
+
+def print_map(player_position):
+    adventure_map = map_for_print(player_position)
+    for row in range(map_rows):                                     #for each row in number of rows
+        for col in range(map_cols):
+            print '{:*^20}'.format(adventure_map[(col, row)]),      #comma prints each column on same 'row'
+        print
+
+
 
 while True:
     location = locations[position]
@@ -24,5 +42,6 @@ while True:
     direction = raw_input('which direction do you want to go?\n')
     if direction in valid_directions:
         position = valid_directions[direction]
+        print_map(position)
     else:
         print "that wasn't a valid direction"
